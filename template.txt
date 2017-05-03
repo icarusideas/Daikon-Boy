@@ -1,0 +1,64 @@
+#include <VarSpeedServo.h>
+#include "letters.h"
+#include "symbols.h"
+
+VarSpeedServo myServo1;
+VarSpeedServo myServo2;
+VarSpeedServo myServo3;
+
+const int BUTTON_PIN_A = 2;
+const int BUTTON_PIN_B = 7;
+const int BUTTON_PIN_C = 8;
+const int BUTTON_PIN_D = 5;
+
+const int SERVO_PIN_1 = 9;
+const int SERVO_PIN_2 = 3;
+const int SERVO_PIN_3 = 6;
+
+const int LETTER_COUNT = $REPLACE_LETTER_COUNT;
+
+int counter = 0;
+int letterIndex;
+int buttonAInput;
+int buttonBInput;
+int buttonCInput;
+int buttonDInput;
+
+void setup() {
+	pinMode(BUTTON_PIN_A, INPUT);
+	pinMode(BUTTON_PIN_B, INPUT);
+	pinMode(BUTTON_PIN_C, INPUT);
+
+	Serial.begin(9600);
+
+	myServo1.attach(SERVO_PIN_1);
+	myServo1.write(4);
+
+	myServo2.attach(SERVO_PIN_2);
+	myServo2.write(74);
+
+	myServo3.attach(SERVO_PIN_3);
+}
+
+void loop() {
+	buttonAInput = digitalRead(BUTTON_PIN_A);
+	buttonBInput = digitalRead(BUTTON_PIN_B);
+	buttonCInput = digitalRead(BUTTON_PIN_C);
+
+	if(buttonAInput == HIGH || buttonBInput == HIGH) {
+		if(buttonAInput == HIGH) {
+			letterIndex = counter % LETTER_COUNT;
+			counter++;
+		}
+
+		if(buttonBInput == HIGH) {
+			letterIndex = (counter - 1) % LETTER_COUNT;
+		}
+
+		$REPLACE_LOOP_LETTERS
+	}
+
+	if(buttonCInput == HIGH) {
+		myServo3.write(35, 0, false);
+	}
+}
