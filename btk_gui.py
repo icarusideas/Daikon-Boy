@@ -1,7 +1,7 @@
 """
 Billy The Kid INO Generator
 """
-from Tkinter import *
+from tkinter import *
 
 
 ROOT = Tk()
